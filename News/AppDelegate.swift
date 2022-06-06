@@ -10,10 +10,39 @@ import CoreData
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
+    private func createPersistentContainer() {
+         func parseEntities(container: NSPersistentContainer) {
+            let entities = container.managedObjectModel.entities
+            print("Entity count = \(entities.count)\n")
+            for entity in entities {
+                print("Entity: \(entity.name!)")
+                for property in entity.properties {
+                    print("Property: \(property.name)")
+                }
+                print("")
+            }
+        }
 
+        let container = NSPersistentContainer(name: "News")
+        parseEntities(container: container)
+        container.loadPersistentStores { (description, error) in
+            if let error = error {
+                fatalError("Error: \(error)")
+            }
+            print("Load stores success")
+        }
+    }
 
+  
+ 
+  
+  
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        
+//        createPersistentContainer()
+        
+        print("didFinishLaunchingWithOptions")
         // Override point for customization after application launch.
         return true
     }
