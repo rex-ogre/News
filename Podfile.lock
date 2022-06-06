@@ -1,0 +1,28 @@
+PODS:
+  - HTMLKit (4.2.0)
+  - Kingfisher (7.2.2)
+  - SwiftLinkPreview (3.4.0)
+  - SwiftSoup (2.3.8)
+
+DEPENDENCIES:
+  - HTMLKit
+  - Kingfisher (~> 7.0)
+  - SwiftLinkPreview (~> 3.4.0)
+  - SwiftSoup
+
+SPEC REPOS:
+  trunk:
+    - HTMLKit
+    - Kingfisher
+    - SwiftLinkPreview
+    - SwiftSoup
+
+SPEC CHECKSUMS:
+  HTMLKit: e11ec9ed1a9be779e7dd65acdea5757fb113030e
+  Kingfisher: 184d4d1a8c36666e663caf8e08abe87898595c53
+  SwiftLinkPreview: c1bc5b2cb3cd42f2865137c1a61f5d788dcf5c9c
+  SwiftSoup: ba8ea2c91151881a298cba4b0628ef31e835a77f
+
+PODFILE CHECKSUM: db639653c8598d224da56211e6a562e2cae5721e
+
+COCOAPODS: 1.11.3
