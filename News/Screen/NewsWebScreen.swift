@@ -23,9 +23,9 @@ class NewsWebScreen: UIViewController, WKUIDelegate {
     }
 
         
-    let url: String
-    required init(url: String){
-        self.url = url
+    let new: news
+    required init(new: news){
+        self.new = new
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -38,8 +38,7 @@ class NewsWebScreen: UIViewController, WKUIDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
        
-      
-        let myURL = URL(string: self.url)
+        let myURL = URL(string: self.new.link)
         let myRequest = URLRequest(url: myURL!)
     
         webView.load(myRequest)
@@ -52,6 +51,7 @@ class NewsWebScreen: UIViewController, WKUIDelegate {
     
     
     private func navigationConfig(){
+        let temp = CoreDataManager.shared.compareNews(container: CoreDataManager.container, guid: self.new.id)
         self.title  = "新聞"
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "返回", primaryAction: UIAction(handler: {
             act in
@@ -62,15 +62,18 @@ class NewsWebScreen: UIViewController, WKUIDelegate {
        
         let menu = UIMenu(children: [
             UIAction(title: "分享",image: UIImage(systemName: "star") ,handler: { action in
-                let activityViewController = UIActivityViewController(activityItems: [self.url], applicationActivities: nil)
+                let activityViewController = UIActivityViewController(activityItems: [self.new.link], applicationActivities: nil)
                 self.present(activityViewController, animated: true)
                
             }),
+            temp == false ?
             UIAction(title: "稍後閱讀",image: UIImage(systemName: "arrow.down.doc") ,handler: { action in
-                print("Edit Pins")
-            }),
-            
-        
+                CoreDataManager.shared.createNews(container: CoreDataManager.container, title: self.new.title, url: self.new.link, image: self.new.image!,guid: self.new.id)
+                self.navigationConfig()
+            }) :  UIAction(title: "取消儲存",image: UIImage(systemName: "arrowshape.turn.up.backward") ,handler: { action in
+                CoreDataManager.shared.deleteNews(container: CoreDataManager.container, guid: self.new.id)
+                self.navigationConfig()
+            })  ,
         ])
         navigationItem.rightBarButtonItem?.menu = menu
     }

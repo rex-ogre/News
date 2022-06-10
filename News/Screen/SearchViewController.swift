@@ -14,6 +14,9 @@ class SearchViewController: UIViewController  {
     let TitleLabel = UILabel()
     let SearchBar = UISearchBar()
     var TableView = UITableView()
+    var loadingView: LoadingView = LoadingView()
+    let ErrorLabel = UILabel()
+    
     
     init(viewModel: SearchNewsViewModel) {
         self.viewModel = viewModel
@@ -31,12 +34,13 @@ class SearchViewController: UIViewController  {
 //    let SearchController = SearchViewController()
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemGray
+        self.view.backgroundColor = .systemBackground
         //MARK: Title Label
         self.view.addSubview(SearchBar)
         self.view.addSubview(TitleLabel)
         TitleLabel.text = "搜尋"
         TitleLabel.font = UIFont(name: "Thonburi-Bold", size: 24)
+        TitleLabel.tintColor = .systemBackground
         TitleLabel.translatesAutoresizingMaskIntoConstraints = false
         TitleLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
         TitleLabel.widthAnchor.constraint(equalToConstant: 50).isActive = true
@@ -51,9 +55,9 @@ class SearchViewController: UIViewController  {
         SearchBar.widthAnchor.constraint(equalToConstant: fullScreenSize.width).isActive = true
         SearchBar.topAnchor.constraint(equalTo: TitleLabel.bottomAnchor, constant: 10).isActive = true
         SearchBar.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        SearchBar.barTintColor = .black
+        SearchBar.barTintColor = .systemFill
         SearchBar.searchBarStyle = .minimal
-        SearchBar.searchTextField.backgroundColor = .white
+        SearchBar.searchTextField.backgroundColor = .systemFill
         SearchBar.delegate = self
 
         //MARK: Search Table View config
@@ -61,11 +65,11 @@ class SearchViewController: UIViewController  {
         self.view.addSubview(TableView)
 
         TableView.register(SearchTableViewCell.self, forCellReuseIdentifier: SearchTableViewCell.identifier)
-        TableView.contentInset =  UIEdgeInsets(top: -22, left: 0, bottom: 0, right: 0)
+        TableView.contentInset =  UIEdgeInsets(top: -22, left: 0, bottom: 150, right: 0)
         TableView.delegate = self
         TableView.dataSource = self
         TableView.separatorStyle = .singleLine
-        TableView.backgroundColor = .black
+       
         self.view.addSubview(TableView)
         TableView.translatesAutoresizingMaskIntoConstraints = false
         TableView.contentInset = UIEdgeInsets(top: 0,left: 0,bottom: 65 ,right: 0)
@@ -90,32 +94,52 @@ class SearchViewController: UIViewController  {
     
     
     
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    //MARK: LoadingView
+    private func configLoadingView(){
+        self.view.addSubview(loadingView)
+        loadingView.translatesAutoresizingMaskIntoConstraints = false
+        loadingView.heightAnchor.constraint(equalToConstant: fullScreenSize.height).isActive  = true
+        loadingView.widthAnchor.constraint(equalToConstant: fullScreenSize.width).isActive  = true
     }
-    */
+    
+    //MARK: Error Screen
+    private func configError(){
+        
+        ErrorLabel.text =  "找不到相關新聞，請更換關鍵字"
+        self.view.addSubview(ErrorLabel)
+        ErrorLabel.translatesAutoresizingMaskIntoConstraints = false
+        ErrorLabel.centerYAnchor.constraint(equalTo: self.view.centerYAnchor, constant: 0).isActive = true
+        ErrorLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: 0).isActive = true
+    
+    }
 
 }
 extension SearchViewController: UISearchBarDelegate{
    
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-       
-        
+        self.configLoadingView()
+        self.loadingView.activityIndicator.startAnimating()
         var temp: String  = searchBar.text!
         temp = temp.replacingOccurrences(of: " ",with: "")
         self.viewModel.loadQuery(query: temp){
             DispatchQueue.main.async {
+           
+                self.loadingView.activityIndicator.stopAnimating()
+                self.loadingView.removeFromSuperview()
+                if (self.viewModel.NewsList.count == 0 ){
+                    self.configError()
+                    
+                } else if self.ErrorLabel.isDescendant(of: self.view){
+                     
+                        self.ErrorLabel.removeFromSuperview()
+                    
+                }
                 self.TableView.reloadData()
             }
             
         }
   
-        
+  
       }
 }
 
@@ -125,23 +149,29 @@ extension SearchViewController: UISearchBarDelegate{
 
 extension SearchViewController:UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.viewModel.NewsList.count
+     
+        
+        return self.viewModel.NewsList.count > 30 ? 30 : self.viewModel.NewsList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell =
         tableView.dequeueReusableCell(
             withIdentifier: "SearchTableViewCell", for: indexPath) as! SearchTableViewCell
-////
-//        cell.config(index: (indexPath.row), url: self.viewModel.NewsList[indexPath.row]!.Url,viewModel: self.viewModel)
+        
+        cell.config(new: self.viewModel.NewsList[indexPath.row])
+      
+    
               return cell
         
           
     }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 200
     }
     
-    
+
    
+
 }

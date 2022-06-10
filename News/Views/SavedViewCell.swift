@@ -6,13 +6,13 @@
 //
 
 import UIKit
-import LinkPresentation
-class SearchTableViewCell: UITableViewCell {
+
+class SavedTableViewCell: UITableViewCell {
     
-    static let identifier = "SearchTableViewCell"
+    static let identifier = "SavedTableViewCell"
     
     var new: news?
-    
+    var saveTagGesture: UITapGestureRecognizer?
     var tapGesture:UITapGestureRecognizer?
     
     private let Image : UIImageView = {
@@ -20,7 +20,7 @@ class SearchTableViewCell: UITableViewCell {
         let Image = UIImageView()
         Image.translatesAutoresizingMaskIntoConstraints = false
         Image.image = UIImage(systemName: "face.smiling.fill")
-        Image.tintColor = .white
+        Image.tintColor = .systemFill
         return Image
     }()
     private let TimeLabel: UILabel = {
@@ -28,8 +28,15 @@ class SearchTableViewCell: UITableViewCell {
         TimeLabel.translatesAutoresizingMaskIntoConstraints = false
         
         TimeLabel.font = UIFont(name: "Helvetica-Light", size: 15)
-
+        TimeLabel.textColor = .systemFill
         return TimeLabel
+    }()
+    private let SaveIcon: UIImageView = {
+        let SaveIcon = UIImageView()
+        SaveIcon.translatesAutoresizingMaskIntoConstraints = false
+        SaveIcon.isUserInteractionEnabled = true
+        SaveIcon.image = UIImage(systemName: "bookmark")
+        return SaveIcon
     }()
     
     
@@ -37,7 +44,7 @@ class SearchTableViewCell: UITableViewCell {
         let TitleLabel = UILabel()
         TitleLabel.translatesAutoresizingMaskIntoConstraints = false
         TitleLabel.numberOfLines = 5
-        
+//        TitleLabel.textColor = .systemBackground
         return TitleLabel
     }()
     
@@ -69,33 +76,38 @@ class SearchTableViewCell: UITableViewCell {
         let TimeLabelLeading = NSLayoutConstraint(item: TimeLabel, attribute: .leading, relatedBy: .equal, toItem: Image, attribute: .trailing, multiplier: 1.0, constant: 20)
         NSLayoutConstraint.activate([TimeLabelWidth,TimeLabelHeight,TimeLabelLeading,TimeLabelBottom])
         
+        //MARK: SaveIcon Layout
+        let SaveIconBottom = NSLayoutConstraint(item: SaveIcon, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1.0, constant: -20)
+        let SaveIconTralling = NSLayoutConstraint(item: SaveIcon, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1.0, constant: -20)
+        NSLayoutConstraint.activate([SaveIconBottom,SaveIconTralling])
+        
+
         
      
         
     }
     
-    
-    
-    
-    
+   
     
     
      override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
       
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        self.backgroundColor = .systemBackground
+        self.backgroundColor = .systemFill
         
         self.addSubview(TitleLabel)
         self.addSubview(Image)
         self.addSubview(TimeLabel)
-        
+         self.addSubview(self.SaveIcon)
         applyConstraints()
-        
+         
+         tapGesture?.delegate = self
+         saveTagGesture?.delegate = self
          tapGesture =
          UITapGestureRecognizer(target: self, action: #selector(handleTap(tap:)))
          
          self.addGestureRecognizer(tapGesture!)
-       
+        
         
        }
     
@@ -110,22 +122,33 @@ class SearchTableViewCell: UITableViewCell {
     
     @objc func handleTap(tap: UITapGestureRecognizer) {
       let vc = self.window?.rootViewController
-        
+    
         let secondVc = UINavigationController(rootViewController: NewsWebScreen(new: self.new!))
   
         secondVc.modalPresentationStyle = .fullScreen
+        
         if tap.state == .ended {
             vc!.present(secondVc, animated: true, completion: nil)
         
         }
     }
+    @objc func saveTap(tap: UITapGestureRecognizer){
+        
+        CoreDataManager.shared.createNews(container: CoreDataManager.container, title: self.new!.title, url: self.new!.link, image: self.new!.image!,guid: self.new!.id)
+        saveTagConfig()
+    }
+    @objc func removeTap(tap: UITapGestureRecognizer){
+        
+        CoreDataManager.shared.deleteNews(container: CoreDataManager.container,guid: self.new!.id)
+        saveTagConfig()
+    }
     
     public func config(new: news){
         self.new = new
-          
+        self.saveTagConfig()
         guard let image = self.new!.image else{return}
      
-        self.TitleLabel.text = self.new?.title
+        self.TitleLabel.text = self.new!.title
         
         guard (self.Image.kf.setImage(with: URL(string: image)) != nil) else{
             return
@@ -134,7 +157,24 @@ class SearchTableViewCell: UITableViewCell {
         
     }
     
-    
+    func saveTagConfig(){
+        
+       
+        let temp = CoreDataManager.shared.compareNews(container: CoreDataManager.container, guid: self.new!.id)
+     
+        
+        if temp {
+            self.SaveIcon.image = UIImage(systemName: "bookmark.fill")
+            self.saveTagGesture = UITapGestureRecognizer(target: self, action: #selector(removeTap(tap:)))
+            self.SaveIcon.addGestureRecognizer(self.saveTagGesture!)
+        } else{
+            self.SaveIcon.image = UIImage(systemName: "bookmark")
+           
+            self.saveTagGesture = UITapGestureRecognizer(target: self, action: #selector(saveTap(tap:)))
+            self.SaveIcon.addGestureRecognizer(self.saveTagGesture!)
+        }
+        
+    }
     
     
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -143,4 +183,17 @@ class SearchTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
+}
+extension SavedTableViewCell{
+    override func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        print("?")
+        
+        if gestureRecognizer == otherGestureRecognizer{
+            
+            return false
+            
+        }
+        
+        return true
+    }
 }

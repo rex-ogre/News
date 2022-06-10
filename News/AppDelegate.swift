@@ -7,41 +7,25 @@
 
 import UIKit
 import CoreData
-
+import GoogleMobileAds
+import UserNotifications
 @main
-class AppDelegate: UIResponder, UIApplicationDelegate {
-    private func createPersistentContainer() {
-         func parseEntities(container: NSPersistentContainer) {
-            let entities = container.managedObjectModel.entities
-            print("Entity count = \(entities.count)\n")
-            for entity in entities {
-                print("Entity: \(entity.name!)")
-                for property in entity.properties {
-                    print("Property: \(property.name)")
-                }
-                print("")
-            }
-        }
-
-        let container = NSPersistentContainer(name: "News")
-        parseEntities(container: container)
-        container.loadPersistentStores { (description, error) in
-            if let error = error {
-                fatalError("Error: \(error)")
-            }
-            print("Load stores success")
-        }
-    }
-
-  
- 
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
+    
   
   
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-//        createPersistentContainer()
-        
+        CoreDataManager.shared.createPersistentContainer()
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert,.sound,.badge, .carPlay], completionHandler: { (granted, error) in
+                    if granted {
+                        print("允許")
+                    } else {
+                        print("不允許")
+                    }
+                })
+        UNUserNotificationCenter.current().delegate = self
+        GADMobileAds.sharedInstance().start(completionHandler: nil)
         print("didFinishLaunchingWithOptions")
         // Override point for customization after application launch.
         return true
@@ -105,6 +89,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
     }
-
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+  
+            completionHandler([.badge, .sound, .alert])
+        }
 }
 

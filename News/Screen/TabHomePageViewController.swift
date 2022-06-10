@@ -6,18 +6,18 @@
 //
 
 import UIKit
-
+import UserNotifications
 
 class HomeViewController: UITabBarController {
     
         let viewModel = NewsViewModel()
     override func viewDidLoad() {
         super.viewDidLoad()
-  
-        view.backgroundColor = .white
+        view.backgroundColor = .systemGray
+        tabBar.barTintColor = .systemFill
         let tab1 = HomwViewController(viewModel: self.viewModel)
         let tab2 = SearchViewController(viewModel: SearchNewsViewModel())
-        let tab3 = SavedViewController()
+        let tab3 = SavedViewController(viewModel: SavedViewmodel())
         let tab4 = SettingViewController()
         tab1.tabBarItem.image = UIImage(systemName: "house")!.withTintColor(.white,renderingMode: .alwaysOriginal)
         
@@ -26,12 +26,12 @@ class HomeViewController: UITabBarController {
         tab4.tabBarItem.image = UIImage(systemName: "gear")!.withTintColor(.white,renderingMode: .alwaysOriginal)
         setViewControllers([tab1,tab2,tab3,tab4], animated: true)
         
-        
-      
-        
-        tabBar.backgroundColor = .black
+        tabBar.backgroundColor = .systemFill
 
         
+       
+             
+
     }
     
     

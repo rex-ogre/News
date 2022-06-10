@@ -21,6 +21,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.rootViewController = HomeViewController()
         window?.makeKeyAndVisible()
         
+        if CoreDataManager.shared.settingConfig[1] == true {
+            window!.overrideUserInterfaceStyle = .dark} else{
+                window!.overrideUserInterfaceStyle = .light
+            }
         
         guard let _ = (scene as? UIWindowScene) else { return }
     }

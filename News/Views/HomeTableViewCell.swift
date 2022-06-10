@@ -9,7 +9,7 @@ import UIKit
 import Kingfisher
 class HomeTableViewCell: UIView {
     
-  
+    var saveTagGesture: UITapGestureRecognizer?
     
     var tapGesture:UITapGestureRecognizer?
  
@@ -25,7 +25,7 @@ class HomeTableViewCell: UIView {
     private let SaveIcon: UIImageView = {
         let SaveIcon = UIImageView()
         SaveIcon.translatesAutoresizingMaskIntoConstraints = false
-        
+        SaveIcon.isUserInteractionEnabled = true
         SaveIcon.image = UIImage(systemName: "bookmark")
         return SaveIcon
     }()
@@ -39,7 +39,7 @@ class HomeTableViewCell: UIView {
         Image.translatesAutoresizingMaskIntoConstraints = false
         Image.image = UIImage(systemName: "face.smiling.fill")
         Image.isUserInteractionEnabled = true
-        Image.tintColor = .white
+     
         return Image
     }()
     private let TimeLabel: UILabel = {
@@ -47,7 +47,7 @@ class HomeTableViewCell: UIView {
         TimeLabel.translatesAutoresizingMaskIntoConstraints = false
         TimeLabel.isUserInteractionEnabled = true
         TimeLabel.font = UIFont(name: "Helvetica-Light", size: 15)
-        TimeLabel.textColor = .black
+   
         return TimeLabel
     }()
     
@@ -57,7 +57,7 @@ class HomeTableViewCell: UIView {
         TitleLabel.isUserInteractionEnabled = true
         TitleLabel.translatesAutoresizingMaskIntoConstraints = false
         TitleLabel.numberOfLines = 5
-        TitleLabel.textColor = .black
+  
         return TitleLabel
     }()
     
@@ -125,7 +125,7 @@ class HomeTableViewCell: UIView {
         
         
         
-        tapGesture?.reset()
+     
         tapGesture =
         UITapGestureRecognizer(target: self, action: #selector(handleTap(tap: )))
        
@@ -140,12 +140,24 @@ class HomeTableViewCell: UIView {
     }
     
   
-  
+    
+    @objc func saveTap(tap: UITapGestureRecognizer){
+        
+        CoreDataManager.shared.createNews(container: CoreDataManager.container, title: self.new.title, url: self.new.link, image: self.new.image!,guid: self.new.id)
+        saveTagConfig()
+    }
+    @objc func removeTap(tap: UITapGestureRecognizer){
+        
+        CoreDataManager.shared.deleteNews(container: CoreDataManager.container,guid: self.new.id)
+        saveTagConfig()
+    }
+    
+    
     @objc func handleTap(tap: UITapGestureRecognizer) {
         
       let vc = self.window?.rootViewController
         
-        let secondVc = UINavigationController(rootViewController: NewsWebScreen(url: self.new.link))
+        let secondVc = UINavigationController(rootViewController: NewsWebScreen(new: self.new))
   
         secondVc.modalPresentationStyle = .fullScreen
         if tap.state == .ended {
@@ -157,7 +169,7 @@ class HomeTableViewCell: UIView {
     
     public func config(){
        
-          
+        saveTagConfig()
         guard let image = self.new.image else{return}
      
         self.TitleLabel.text = self.new.title
@@ -168,7 +180,24 @@ class HomeTableViewCell: UIView {
      
         
     }
-    
+    func saveTagConfig(){
+        
+       
+        let temp = CoreDataManager.shared.compareNews(container: CoreDataManager.container, guid: self.new.id)
+     
+        
+        if temp {
+            self.SaveIcon.image = UIImage(systemName: "bookmark.fill")
+            self.saveTagGesture = UITapGestureRecognizer(target: self, action: #selector(removeTap(tap:)))
+            self.SaveIcon.addGestureRecognizer(self.saveTagGesture!)
+        } else{
+            self.SaveIcon.image = UIImage(systemName: "bookmark")
+           
+            self.saveTagGesture = UITapGestureRecognizer(target: self, action: #selector(saveTap(tap:)))
+            self.SaveIcon.addGestureRecognizer(self.saveTagGesture!)
+        }
+        
+    }
     
     
     

@@ -4,6 +4,7 @@
 target 'News' do
   
   use_frameworks!
+pod 'Google-Mobile-Ads-SDK'
 	 pod 'HTMLKit'
 	pod 'SwiftSoup'
    pod 'SwiftLinkPreview', '~> 3.4.0'

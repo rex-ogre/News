@@ -2,7 +2,7 @@
 //  Newsmodel+CoreDataProperties.swift
 //  News
 //
-//  Created by 陳冠雄 on 2022/6/3.
+//  Created by 陳冠雄 on 2022/6/9.
 //
 //
 
@@ -16,9 +16,10 @@ extension Newsmodel {
         return NSFetchRequest<Newsmodel>(entityName: "Newsmodel")
     }
 
-    @NSManaged public var image: Data?
+    @NSManaged public var image: String?
     @NSManaged public var title: String?
     @NSManaged public var url: String?
+    @NSManaged public var guid: String?
 
 }
 
