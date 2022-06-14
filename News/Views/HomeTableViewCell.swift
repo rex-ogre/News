@@ -37,7 +37,7 @@ class HomeTableViewCell: UIView {
       
         let Image = UIImageView()
         Image.translatesAutoresizingMaskIntoConstraints = false
-        Image.image = UIImage(systemName: "face.smiling.fill")
+        Image.image = UIImage(systemName: "camera")
         Image.isUserInteractionEnabled = true
      
         return Image
@@ -57,7 +57,7 @@ class HomeTableViewCell: UIView {
         TitleLabel.isUserInteractionEnabled = true
         TitleLabel.translatesAutoresizingMaskIntoConstraints = false
         TitleLabel.numberOfLines = 5
-  
+        TitleLabel.text = "沒有可顯示的標題"
         return TitleLabel
     }()
     
@@ -143,7 +143,7 @@ class HomeTableViewCell: UIView {
     
     @objc func saveTap(tap: UITapGestureRecognizer){
         
-        CoreDataManager.shared.createNews(container: CoreDataManager.container, title: self.new.title, url: self.new.link, image: self.new.image!,guid: self.new.id)
+        CoreDataManager.shared.createNews(container: CoreDataManager.container, title: self.new.title, url: self.new.link, image: self.new.image ?? "",guid: self.new.id)
         saveTagConfig()
     }
     @objc func removeTap(tap: UITapGestureRecognizer){

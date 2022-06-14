@@ -11,19 +11,69 @@ import Combine
 class HomwViewController: UIViewController {
     
     
-    private var fullScreenSize = UIScreen.main.bounds.size
-    private let header = UILabel()
-    let HorizionalScrollView: UIScrollView = UIScrollView()
+    private var fullScreenSize: CGRect?
+    private let header : UILabel = {
+        let header = UILabel()
+        header.text = "新聞"
+        header.font = UIFont(name: "Thonburi-Bold", size: 35)
+        header.translatesAutoresizingMaskIntoConstraints = false
+        return header
+    }()
+    let HorizionalScrollView: UIScrollView = {
+        let HorizionalScrollView = UIScrollView()
+        HorizionalScrollView.translatesAutoresizingMaskIntoConstraints = false
+        
+        HorizionalScrollView.showsVerticalScrollIndicator = false
+        HorizionalScrollView.showsHorizontalScrollIndicator = false
+        HorizionalScrollView.isScrollEnabled = true
+        HorizionalScrollView.isPagingEnabled = true
+        return HorizionalScrollView
+    }()
     let ErrorLabel = UILabel()
-    let PageControl: UIPageControl = UIPageControl()
-    let NewsTabbar : UIScrollView = UIScrollView()
+    let PageControl: UIPageControl = {
+        let PageControl = UIPageControl()
+        PageControl.currentPage = 0
+        
+        PageControl.numberOfPages = 5
+        PageControl.translatesAutoresizingMaskIntoConstraints = false
+        
+        
+        PageControl.currentPageIndicatorTintColor = .black
+        PageControl.pageIndicatorTintColor = .gray
+        PageControl.backgroundStyle = .minimal
+        return PageControl
+    }()
+    let NewsTabbar : UIScrollView = {
+        let NewsTabbar = UIScrollView()
+        NewsTabbar.isScrollEnabled = true
+        NewsTabbar.isPagingEnabled = false
+        NewsTabbar.showsHorizontalScrollIndicator = false
+        NewsTabbar.translatesAutoresizingMaskIntoConstraints = false
+        return NewsTabbar
+    }()
+    
+    
     var NewsTabbarButton: Dictionary<String,UIButton> = [String:UIButton]()
-    let TableViewHeader: UILabel = UILabel()
-    let ScrollView : UIScrollView = UIScrollView()
+    let TableViewHeader: UILabel = {
+        let TableViewHeader = UILabel()
+        TableViewHeader.text = "最新新聞"
+        TableViewHeader.font = UIFont(name: "Thonburi-Bold", size: 30)
+        TableViewHeader.translatesAutoresizingMaskIntoConstraints = false
+        return TableViewHeader
+    }()
+    let ScrollView : UIScrollView = {
+        let ScrollView = UIScrollView()
+        ScrollView.contentInset =  UIEdgeInsets(top: -22, left: 0, bottom: 150, right: 0)
+        ScrollView.isDirectionalLockEnabled = true
+        ScrollView.isUserInteractionEnabled = true
+        ScrollView.bounces = true
+        ScrollView.translatesAutoresizingMaskIntoConstraints = false
+        return ScrollView
+    }()
     
     var VerCellList : [HomeTableViewCell] = []
     var HorCellList : [HorizionalCell] = []
- 
+    
     var loadingView: LoadingView = LoadingView()
     
     private var  viewModel: NewsViewModel
@@ -33,26 +83,17 @@ class HomwViewController: UIViewController {
     
     //MARK: Tabbar Button function
     @objc func singleTap(sender:UIButton) {
-     
+        
         //MARK: Start loading View
         configLoadingView()
         loadingView.activityIndicator.startAnimating()
-        
-        
         NewsTabbarButton[sender.title(for: .normal)!]?.isSelected = true
-         tempTopic = Newsitems[(NewsTabbarButton[sender.title(for: .normal)!]?.titleLabel?.text)!]!
-     
-       
+        tempTopic = Newsitems[(NewsTabbarButton[sender.title(for: .normal)!]?.titleLabel?.text)!]!
+        
         tempTopic != "TOP" ? self.viewModel.loadTopicData(topic: tempTopic, completion: configscreen): self.viewModel.loadTopData(completion: configscreen)
-            
-    
-
         for i in NewsTabbarButton.keys{
             if (i != sender.title(for: .normal)!){
-                NewsTabbarButton[i]?.isSelected = false
-                
-            }
-        }
+                NewsTabbarButton[i]?.isSelected = false}}
         
         
     }
@@ -68,110 +109,56 @@ class HomwViewController: UIViewController {
     
     
     override func viewDidLayoutSubviews() {
-          super.viewDidLayoutSubviews()
-   
-      }
-      
+        super.viewDidLayoutSubviews()
+        fullScreenSize = CGRect(origin: .zero, size: view.bounds.size)
+        HorizionalScrollView.contentSize = CGSize(width: fullScreenSize!.width*5, height: 250)
+        
+        
+    }
+    
     
     
     override func viewDidLoad()  {
         super.viewDidLoad()
- 
-        //MARK: ScrollView
-        configScrollView()
+        fullScreenSize = CGRect(origin: .zero, size: view.bounds.size)
         
         
         view.backgroundColor = .systemBackground
-      
+        
         //MARK: News category Tabbar
         NewsTabbar.delegate = self
         self.view.addSubview(NewsTabbar)
-        NewsTabbar.isScrollEnabled = true
-        NewsTabbar.isPagingEnabled = false
-        NewsTabbar.showsHorizontalScrollIndicator = false
-        NewsTabbar.contentSize = CGSize(width: fullScreenSize.width*2.5, height: 50)
-        
-        //MARK: Tabbar Item Setting
-        let Newsitems = ["熱門","商業","政治",  "科技","體育","健康"]
-        for i in Newsitems {
-            
-            let catgory = UIButton(frame: CGRect(x: 80*Newsitems.firstIndex(of: i)!, y: 0, width: 100, height: 30))
-            NewsTabbarButton[i] = catgory
-            catgory.addTarget(self, action: #selector(singleTap), for: .touchDown)
-            
-            catgory.setTitle(i, for: .normal)
-            catgory.isSelected = false
-            catgory.setAttributedTitle(NSAttributedString(string: i,attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 21, weight: .bold),NSAttributedString.Key.underlineStyle:NSUnderlineStyle.single.rawValue,
-                                                                                 NSAttributedString.Key.underlineColor:UIColor.orange
-                                                                                ]), for: .selected)
-            catgory.setAttributedTitle(NSAttributedString(string: i,attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 21 ),]), for: .normal)
-            catgory.isUserInteractionEnabled = true
-            if (Newsitems.firstIndex(of: i)! == 0 ){
-                catgory.isSelected = true
-            }
-            NewsTabbar.addSubview(catgory)
-        }
-        
-        NewsTabbar.translatesAutoresizingMaskIntoConstraints = false
-        
-        
-        
         
         
         //MARK: Header setting
-        header.text = "新聞"
-        header.font = UIFont(name: "Thonburi-Bold", size: 35)
-        header.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(header)
-        
-        
-        
-        
         //MARK: Horizional Scroll View
         
         
         HorizionalScrollView.delegate = self
-        HorizionalScrollView.translatesAutoresizingMaskIntoConstraints = false
-        HorizionalScrollView.contentSize = CGSize(width: fullScreenSize.width*5, height: 250)
-        HorizionalScrollView.showsVerticalScrollIndicator = false
-        HorizionalScrollView.showsHorizontalScrollIndicator = false
-        HorizionalScrollView.isScrollEnabled = true
-        HorizionalScrollView.isPagingEnabled = true
+        
+        
         
         self.ScrollView.addSubview(HorizionalScrollView)
         
         
         //MARK: PageControl Setting
-        
-        PageControl.currentPage = 0
-        
-        PageControl.numberOfPages = 5
-        PageControl.translatesAutoresizingMaskIntoConstraints = false
         self.ScrollView.addSubview(PageControl)
-        
-        PageControl.currentPageIndicatorTintColor = .black
-        PageControl.pageIndicatorTintColor = .gray
-        PageControl.backgroundStyle = .minimal
-        PageControl.translatesAutoresizingMaskIntoConstraints = false
-        
         
         //MARK: TableViewHeader Setting
         self.ScrollView.addSubview(TableViewHeader)
-        TableViewHeader.text = "最新新聞"
-        TableViewHeader.font = UIFont(name: "Thonburi-Bold", size: 30)
-        TableViewHeader.translatesAutoresizingMaskIntoConstraints = false
         
         
-
-        TableViewHeader.topAnchor.constraint(equalTo: PageControl.bottomAnchor, constant: 10).isActive = true
-        TableViewHeader.leadingAnchor.constraint(equalTo: self.ScrollView.leadingAnchor, constant: 10).isActive = true
+        
         
         
         //MARK: Start loading View
         configLoadingView()
         loadingView.activityIndicator.startAnimating()
-        self.viewModel.loadTopData(completion: configScreenInit)
-
+        
+        ScrollView.delegate = self
+        self.view.addSubview(ScrollView)
+        
         applyConstrant()
     }
     
@@ -189,6 +176,29 @@ class HomwViewController: UIViewController {
     
     //MARK: apply constrant
     func applyConstrant(){
+        //MARK News tabbar
+        let Newsitems = ["熱門","商業","政治",  "科技","體育","健康"]
+        for i in Newsitems {
+            
+            let catgory = UIButton()
+            NewsTabbar.addSubview(catgory)
+            catgory.translatesAutoresizingMaskIntoConstraints = false
+            catgory.leadingAnchor.constraint(equalTo: self.NewsTabbar.leadingAnchor, constant: CGFloat(20+(80*Newsitems.firstIndex(of: i)!))).isActive = true
+            NewsTabbarButton[i] = catgory
+            catgory.addTarget(self, action: #selector(singleTap), for: .touchDown)
+            
+            catgory.setTitle(i, for: .normal)
+            catgory.isSelected = false
+            catgory.setAttributedTitle(NSAttributedString(string: i,attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 21, weight: .bold),NSAttributedString.Key.underlineStyle:NSUnderlineStyle.single.rawValue,
+                                                                                 NSAttributedString.Key.underlineColor:UIColor.orange
+                                                                                ]), for: .selected)
+            catgory.setAttributedTitle(NSAttributedString(string: i,attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 21 ),]), for: .normal)
+            catgory.isUserInteractionEnabled = true
+            if (Newsitems.firstIndex(of: i)! == 0 ){
+                catgory.isSelected = true
+            }
+            
+        }
         let leading = NSLayoutConstraint(item: header,
                                          attribute: .leading,
                                          relatedBy: .equal,
@@ -215,23 +225,30 @@ class HomwViewController: UIViewController {
         
         let NewsTabbarTop = NewsTabbar.topAnchor.constraint(equalTo: self.view.topAnchor,constant: 90)
         let NewsTabbarLeading = NewsTabbar.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 0)
-        
-        let NesTabbarWidth = NewsTabbar.widthAnchor.constraint(equalToConstant: fullScreenSize.width*2)
+        let NewsTabbarTraling = NewsTabbar.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: 0)
+        let NesTabbarWidth = NewsTabbar.widthAnchor.constraint(equalToConstant: fullScreenSize!.width*2)
         let NesTabbarheght = NewsTabbar.heightAnchor.constraint( equalToConstant: 70)
         
         
         
-        NSLayoutConstraint.activate([NewsTabbarTop,NesTabbarWidth,NesTabbarheght,NewsTabbarLeading])
+        NSLayoutConstraint.activate([NewsTabbarTop,NesTabbarheght,
+                                     NewsTabbarLeading,
+                                     NewsTabbarTraling,
+                                    ])
         
         
         
         let HorizionalScrollViewHeight = NSLayoutConstraint(item: HorizionalScrollView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 250)
         
-        let HorizionalScrollViewWidth = NSLayoutConstraint(item: HorizionalScrollView, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: fullScreenSize.width)
+
         let HorizionalScrollViewTop = NSLayoutConstraint(item: HorizionalScrollView, attribute: .top, relatedBy: .equal, toItem: self.ScrollView, attribute: .top, multiplier: 1.0, constant: 50)
         let HorizionalScrollViewToTableView = NSLayoutConstraint(item: HorizionalScrollView, attribute: .bottom, relatedBy: .equal, toItem: PageControl, attribute: .top, multiplier: 1.0, constant: 0)
-        
-        NSLayoutConstraint.activate([HorizionalScrollViewHeight,HorizionalScrollViewTop,HorizionalScrollViewWidth,])
+        let HorizionalScrollViewCenter = NSLayoutConstraint(item: HorizionalScrollView, attribute: .centerX, relatedBy: .equal, toItem: self.ScrollView, attribute: .centerX, multiplier: 1.0, constant: 0)
+        let HorizionalScrollViewLeading = NSLayoutConstraint(item: HorizionalScrollView, attribute: .leading, relatedBy: .equal, toItem: self.ScrollView, attribute: .leading, multiplier: 1.0, constant: 0)
+        NSLayoutConstraint.activate([
+            HorizionalScrollViewLeading,
+            HorizionalScrollViewHeight,
+            HorizionalScrollViewTop,HorizionalScrollViewCenter])
         
         let PageControlTop = NSLayoutConstraint(item: PageControl, attribute: .top, relatedBy: .equal, toItem: self.HorizionalScrollView, attribute: .bottom, multiplier: 1.0, constant: 20)
         
@@ -239,17 +256,42 @@ class HomwViewController: UIViewController {
         
         PageControl.addTarget(self, action: #selector(self.pageChanged), for: .valueChanged)
         NSLayoutConstraint.activate([PageControlTop,PageControlCenter])
+        
+        TableViewHeader.topAnchor.constraint(equalTo: PageControl.bottomAnchor, constant: 10).isActive = true
+        TableViewHeader.leadingAnchor.constraint(equalTo: self.ScrollView.leadingAnchor, constant: 10).isActive = true
+        
+        
+        
+        //MARK: ScrollView
+        switch UIDevice.current.name {
+        case "iPhone 8":
+            ScrollView.contentSize = CGSize(
+                width: fullScreenSize!.width * 1,
+                height: fullScreenSize!.height * 5.5)
+        default:
+            ScrollView.contentSize = CGSize(
+                width: fullScreenSize!.width * 1,
+                height: fullScreenSize!.height * 4.3)
+        }
+        NewsTabbar.contentSize = CGSize(width: fullScreenSize!.width*1.5, height: 50)
+        HorizionalScrollView.contentSize = CGSize(width: fullScreenSize!.width*5, height: 250)
+        ScrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor,constant: 0).isActive = true
+        ScrollView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor,constant: 0).isActive = true
+        ScrollView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: 0).isActive = true
+        ScrollView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 130).isActive = true
+        
+        self.viewModel.loadTopData(completion: configScreenInit)
     }
     
     
     
     //MARK: Config Screen
     func configscreen(){
-       
-        guard self.viewModel.NewsList.count > 20 else{
-       
-            self.ScrollView.removeFromSuperview()
         
+        guard self.viewModel.NewsList.count > 20 else{
+            
+            self.ScrollView.removeFromSuperview()
+            
             self.configError()
             
             self.loadingView.activityIndicator.stopAnimating()
@@ -262,99 +304,87 @@ class HomwViewController: UIViewController {
             self.ErrorLabel.removeFromSuperview()
         }
         if self.ScrollView.isDescendant(of: self.view) == false{
-        self.view.addSubview(ScrollView)
-            self.configScrollView()
-            
+            self.view.addSubview(ScrollView)
         }
         for i in self.HorCellList{i.new = self.viewModel.NewsList[self.HorCellList.firstIndex(of: i)!]}
         for i in self.VerCellList{
-           i.new = self.viewModel.NewsList[self.VerCellList.firstIndex(of: i)!+6]
+            i.new = self.viewModel.NewsList[self.VerCellList.firstIndex(of: i)!+6]
             
         }
         self.loadingView.activityIndicator.stopAnimating()
         self.loadingView.removeFromSuperview()
         
         
-}
+    }
     
-   
+    
+    
+    
     //MARK: First init Screen
     func configScreenInit(){
-     
-            DispatchQueue.main.async {
-              
-                 let total = self.viewModel.NewsList.count
-                    if (total>25){
-                        print(total)
-                        // Horizional Cell
-                        for i in  0...4{
-
-                            let HorCell =  HorizionalCell(frame: .null,new: self.viewModel.NewsList[i])
-
-                            let CellCenter = NSLayoutConstraint(item: HorCell, attribute: .centerX, relatedBy: .equal, toItem: self.HorizionalScrollView, attribute: .centerX, multiplier: 1.0, constant: self.fullScreenSize.width*CGFloat(i) )
-
-                            self.HorizionalScrollView.addSubview(HorCell)
-                            NSLayoutConstraint.activate([CellCenter])
-                            self.HorCellList.append(HorCell)
-
-                        }
-                        
-                        let d2 = DispatchQueue(label: "verticalCell",qos: DispatchQoS.unspecified)
-
-                        let workItem = DispatchWorkItem(block: {
+        
+        DispatchQueue.main.async {
+            
+            let total = self.viewModel.NewsList.count
+            if (total>25){
+                print(total)
+                // Horizional Cell
+                for i in  0...4{
+                    
+                    let HorCell =  HorizionalCell(frame: .null,new: self.viewModel.NewsList[i])
+                    let CellCenter = NSLayoutConstraint(item: HorCell, attribute: .centerX, relatedBy: .equal, toItem: self.HorizionalScrollView, attribute: .centerX, multiplier: 1.0, constant: self.fullScreenSize!.width*CGFloat(i) )
+                    
+                    let CellBottom = NSLayoutConstraint(item: HorCell, attribute: .bottom, relatedBy: .equal, toItem: self.PageControl, attribute: .bottom, multiplier: 1.0, constant: -10 )
+                    
+                    self.HorizionalScrollView.addSubview(HorCell)
+                    
+                    NSLayoutConstraint.activate([CellCenter,CellBottom])
+                    
+                    self.HorCellList.append(HorCell)
+                    
+                }
+                
+                let d2 = DispatchQueue(label: "verticalCell",qos: DispatchQoS.unspecified)
+                
+                let workItem = DispatchWorkItem(block: {
+                    
+                    for i in (0...16){
+                        DispatchQueue.main.async {
                             
-                            for i in (0...16){
-                                DispatchQueue.main.async {
-                                    
-                                    let VerCell = HomeTableViewCell(new: self.viewModel.NewsList[6+i],frame: .null )
-                                        self.ScrollView.addSubview(VerCell)
-
-                                        VerCell.config()
-                                        VerCell.translatesAutoresizingMaskIntoConstraints = false
-                                   
-                                    VerCell.isUserInteractionEnabled = true
-                                        VerCell.topAnchor.constraint(equalTo: self.TableViewHeader.bottomAnchor, constant: CGFloat(((i)*200)+50)).isActive = true
-                                    VerCell.leadingAnchor.constraint(equalTo: self.view.leadingAnchor,constant: 10).isActive = true
-                                        self.VerCellList.append(VerCell)
-                                    
-                                }
-                            }
-                        })
-
-                      
-                        d2.async(execute: workItem)
-                    
-                    } else{
-                        print(total)
-                        
+                            let VerCell = HomeTableViewCell(new: self.viewModel.NewsList[6+i],frame: .null )
+                            self.ScrollView.addSubview(VerCell)
+                            
+                            VerCell.config()
+                            VerCell.translatesAutoresizingMaskIntoConstraints = false
+                            
+                            VerCell.isUserInteractionEnabled = true
+                            VerCell.topAnchor.constraint(equalTo: self.TableViewHeader.bottomAnchor, constant: CGFloat(((i)*200)+50)).isActive = true
+                            
+                            VerCell.centerXAnchor.constraint(equalTo: self.ScrollView.centerXAnchor,constant: 0).isActive = true
+                            self.VerCellList.append(VerCell)
+                            
+                        }
                     }
-                    
-                //MARK: load完 remove loadingview
-                self.loadingView.activityIndicator.stopAnimating()
-                self.loadingView.removeFromSuperview()
-          
+                })
+                
+                
+                d2.async(execute: workItem)
+                
+            } else{
+                print(total)
                 
             }
+            
+            //MARK: load完 remove loadingview
+            self.loadingView.activityIndicator.stopAnimating()
+            self.loadingView.removeFromSuperview()
+            
+            
         }
-    
-    
-    //MARK: ScrollView
-    private func configScrollView(){
-        
-        ScrollView.contentSize = CGSize(
-            width: fullScreenSize.width * 1,
-            height: fullScreenSize.height * 5)
-        ScrollView.isDirectionalLockEnabled = true
-        ScrollView.isUserInteractionEnabled = true
-        ScrollView.bounces = true
-        ScrollView.delegate = self
-        self.view.addSubview(ScrollView)
-    
-        ScrollView.translatesAutoresizingMaskIntoConstraints = false
-        ScrollView.heightAnchor.constraint(equalToConstant: fullScreenSize.height).isActive = true
-        ScrollView.widthAnchor.constraint(equalToConstant: fullScreenSize.width).isActive = true
-        ScrollView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 130).isActive = true
     }
+    
+    
+    
     //MARK: Error Screen
     private func configError(){
         
@@ -363,16 +393,18 @@ class HomwViewController: UIViewController {
         ErrorLabel.translatesAutoresizingMaskIntoConstraints = false
         ErrorLabel.centerYAnchor.constraint(equalTo: self.view.centerYAnchor, constant: 0).isActive = true
         ErrorLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: 0).isActive = true
-    
+        
     }
     //MARK: LoadingView
     private func configLoadingView(){
         self.view.addSubview(loadingView)
         loadingView.translatesAutoresizingMaskIntoConstraints = false
-        loadingView.heightAnchor.constraint(equalToConstant: fullScreenSize.height).isActive  = true
-        loadingView.widthAnchor.constraint(equalToConstant: fullScreenSize.width).isActive  = true
+        loadingView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 0).isActive = true
+        loadingView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 0).isActive = true
+        loadingView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: 0).isActive = true
+        loadingView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
     }
-   
+    
 }
 
 

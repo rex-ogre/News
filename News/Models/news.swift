@@ -9,8 +9,16 @@ import Foundation
 import UIKit
 
 
-class news {
-    let title: String
+class news : Comparable{
+    static func < (lhs: news, rhs: news) -> Bool {
+        lhs.id < rhs.id
+    }
+    
+    static func == (lhs: news, rhs: news) -> Bool {
+        lhs.id == rhs.id
+    }
+    
+    var title: String
     let link: String
     let id: String
     var image: String?

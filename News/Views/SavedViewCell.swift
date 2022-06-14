@@ -19,7 +19,7 @@ class SavedTableViewCell: UITableViewCell {
       
         let Image = UIImageView()
         Image.translatesAutoresizingMaskIntoConstraints = false
-        Image.image = UIImage(systemName: "face.smiling.fill")
+        Image.image = UIImage(systemName: "camera")
         Image.tintColor = .systemFill
         return Image
     }()
@@ -77,9 +77,9 @@ class SavedTableViewCell: UITableViewCell {
         NSLayoutConstraint.activate([TimeLabelWidth,TimeLabelHeight,TimeLabelLeading,TimeLabelBottom])
         
         //MARK: SaveIcon Layout
-        let SaveIconBottom = NSLayoutConstraint(item: SaveIcon, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1.0, constant: -20)
-        let SaveIconTralling = NSLayoutConstraint(item: SaveIcon, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1.0, constant: -20)
-        NSLayoutConstraint.activate([SaveIconBottom,SaveIconTralling])
+//        let SaveIconBottom = NSLayoutConstraint(item: SaveIcon, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1.0, constant: -20)
+//        let SaveIconTralling = NSLayoutConstraint(item: SaveIcon, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1.0, constant: -20)
+//        NSLayoutConstraint.activate([SaveIconBottom,SaveIconTralling])
         
 
         
@@ -98,7 +98,7 @@ class SavedTableViewCell: UITableViewCell {
         self.addSubview(TitleLabel)
         self.addSubview(Image)
         self.addSubview(TimeLabel)
-         self.addSubview(self.SaveIcon)
+//         self.addSubview(self.SaveIcon)
         applyConstraints()
          
          tapGesture?.delegate = self
@@ -150,10 +150,11 @@ class SavedTableViewCell: UITableViewCell {
      
         self.TitleLabel.text = self.new!.title
         
+        
         guard (self.Image.kf.setImage(with: URL(string: image)) != nil) else{
             return
         }
-     
+        if self.new?.image == "" { self.Image.image = UIImage(systemName: "camera") }
         
     }
     

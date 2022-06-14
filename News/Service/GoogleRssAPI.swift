@@ -54,8 +54,11 @@ class APICaller{
                             new.image = imageLink
                         }
                     }
+                        
+                        
                         taskGroup.leave()
                     }
+                
                 task.resume()
                 
               

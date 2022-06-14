@@ -34,7 +34,7 @@ class SearchViewController: UIViewController  {
         TableView.contentInset =  UIEdgeInsets(top: -22, left: 0, bottom: 150, right: 0)
         
         TableView.separatorStyle = .singleLine
-        
+        TableView.tableFooterView = nil
         
         TableView.translatesAutoresizingMaskIntoConstraints = false
         TableView.contentInset = UIEdgeInsets(top: 0,left: 0,bottom: 65 ,right: 0)
@@ -62,7 +62,8 @@ class SearchViewController: UIViewController  {
         
         view.endEditing(true)
     }
-    override func viewDidLoad() {
+   
+    override func viewWillAppear(_ animated: Bool) {
         super.viewDidLoad()
         self.view.backgroundColor = .systemBackground
         
@@ -117,12 +118,17 @@ class SearchViewController: UIViewController  {
     
     
     
+  
     //MARK: LoadingView
     private func configLoadingView(){
         self.view.addSubview(loadingView)
         loadingView.translatesAutoresizingMaskIntoConstraints = false
         loadingView.heightAnchor.constraint(equalToConstant: fullScreenSize.height).isActive  = true
         loadingView.widthAnchor.constraint(equalToConstant: fullScreenSize.width).isActive  = true
+        loadingView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 0).isActive = true
+        loadingView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 0).isActive = true
+        loadingView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: 0).isActive = true
+        loadingView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
     }
     
     //MARK: Error Screen
@@ -184,7 +190,7 @@ extension SearchViewController:UITableViewDelegate,UITableViewDataSource{
         
         cell.config(new: self.viewModel.NewsList[indexPath.row])
         
-        
+      
         return cell
         
         

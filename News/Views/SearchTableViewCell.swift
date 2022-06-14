@@ -19,8 +19,8 @@ class SearchTableViewCell: UITableViewCell {
       
         let Image = UIImageView()
         Image.translatesAutoresizingMaskIntoConstraints = false
-        Image.image = UIImage(systemName: "face.smiling.fill")
-        Image.tintColor = .white
+       
+       
         return Image
     }()
     private let TimeLabel: UILabel = {
@@ -122,12 +122,11 @@ class SearchTableViewCell: UITableViewCell {
     
     public func config(new: news){
         self.new = new
-          
-        guard let image = self.new!.image else{return}
-     
         self.TitleLabel.text = self.new?.title
+        guard let image = self.new!.image else{return}
         
         guard (self.Image.kf.setImage(with: URL(string: image)) != nil) else{
+  
             return
         }
      

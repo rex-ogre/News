@@ -68,7 +68,7 @@ class NewsWebScreen: UIViewController, WKUIDelegate {
             }),
             temp == false ?
             UIAction(title: "稍後閱讀",image: UIImage(systemName: "arrow.down.doc") ,handler: { action in
-                CoreDataManager.shared.createNews(container: CoreDataManager.container, title: self.new.title, url: self.new.link, image: self.new.image!,guid: self.new.id)
+                CoreDataManager.shared.createNews(container: CoreDataManager.container, title: self.new.title, url: self.new.link, image: self.new.image ?? "",guid: self.new.id)
                 self.navigationConfig()
             }) :  UIAction(title: "取消儲存",image: UIImage(systemName: "arrowshape.turn.up.backward") ,handler: { action in
                 CoreDataManager.shared.deleteNews(container: CoreDataManager.container, guid: self.new.id)

@@ -13,6 +13,7 @@ class HomeViewController: UITabBarController {
         let viewModel = NewsViewModel()
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         view.backgroundColor = .systemGray
         tabBar.barTintColor = .systemFill
         let tab1 = HomwViewController(viewModel: self.viewModel)
