@@ -69,17 +69,17 @@
 		9A4BA83E1DD7DFCC30C30AC5 /* Pods-NewsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewsTests.debug.xcconfig"; path = "Target Support Files/Pods-NewsTests/Pods-NewsTests.debug.xcconfig"; sourceTree = "<group>"; };
 		9C1F887F27F495F40005E00D /* news.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = news.swift; sourceTree = "<group>"; };
 		9C1F888227F49A890005E00D /* NewsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsViewModel.swift; sourceTree = "<group>"; };
-		9CABA3CD27CB596F00A453AD /* News.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = News.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9CABA3CD27CB596F00A453AD /* recccNews.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = recccNews.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9CABA3D027CB596F00A453AD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9CABA3D227CB596F00A453AD /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		9CABA3DA27CB596F00A453AD /* News.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = News.xcdatamodel; sourceTree = "<group>"; };
 		9CABA3DC27CB597000A453AD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9CABA3DF27CB597000A453AD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9CABA3E127CB597000A453AD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		9CABA3E627CB597000A453AD /* NewsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NewsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		9CABA3E627CB597000A453AD /* recccNewsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = recccNewsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9CABA3EA27CB597000A453AD /* NewsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsTests.swift; sourceTree = "<group>"; };
 		9CABA3EC27CB597000A453AD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		9CABA3F127CB597000A453AD /* NewsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NewsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		9CABA3F127CB597000A453AD /* recccNewsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = recccNewsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9CABA3F527CB597000A453AD /* NewsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsUITests.swift; sourceTree = "<group>"; };
 		9CABA3F727CB597000A453AD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9CABA40327CB660100A453AD /* TabHomePageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabHomePageViewController.swift; sourceTree = "<group>"; };
@@ -175,9 +175,9 @@
 		9CABA3CE27CB596F00A453AD /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				9CABA3CD27CB596F00A453AD /* News.app */,
-				9CABA3E627CB597000A453AD /* NewsTests.xctest */,
-				9CABA3F127CB597000A453AD /* NewsUITests.xctest */,
+				9CABA3CD27CB596F00A453AD /* recccNews.app */,
+				9CABA3E627CB597000A453AD /* recccNewsTests.xctest */,
+				9CABA3F127CB597000A453AD /* recccNewsUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -280,9 +280,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		9CABA3CC27CB596F00A453AD /* News */ = {
+		9CABA3CC27CB596F00A453AD /* recccNews */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 9CABA3FA27CB597000A453AD /* Build configuration list for PBXNativeTarget "News" */;
+			buildConfigurationList = 9CABA3FA27CB597000A453AD /* Build configuration list for PBXNativeTarget "recccNews" */;
 			buildPhases = (
 				25DC7A4CC5626F3B95B0DD16 /* [CP] Check Pods Manifest.lock */,
 				9CABA3C927CB596F00A453AD /* Sources */,
@@ -294,14 +294,14 @@
 			);
 			dependencies = (
 			);
-			name = News;
+			name = recccNews;
 			productName = News;
-			productReference = 9CABA3CD27CB596F00A453AD /* News.app */;
+			productReference = 9CABA3CD27CB596F00A453AD /* recccNews.app */;
 			productType = "com.apple.product-type.application";
 		};
-		9CABA3E527CB597000A453AD /* NewsTests */ = {
+		9CABA3E527CB597000A453AD /* recccNewsTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 9CABA3FD27CB597000A453AD /* Build configuration list for PBXNativeTarget "NewsTests" */;
+			buildConfigurationList = 9CABA3FD27CB597000A453AD /* Build configuration list for PBXNativeTarget "recccNewsTests" */;
 			buildPhases = (
 				3B5D923C2C9D6DA20DFDC170 /* [CP] Check Pods Manifest.lock */,
 				9CABA3E227CB597000A453AD /* Sources */,
@@ -313,14 +313,14 @@
 			dependencies = (
 				9CABA3E827CB597000A453AD /* PBXTargetDependency */,
 			);
-			name = NewsTests;
+			name = recccNewsTests;
 			productName = NewsTests;
-			productReference = 9CABA3E627CB597000A453AD /* NewsTests.xctest */;
+			productReference = 9CABA3E627CB597000A453AD /* recccNewsTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		9CABA3F027CB597000A453AD /* NewsUITests */ = {
+		9CABA3F027CB597000A453AD /* recccNewsUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 9CABA40027CB597000A453AD /* Build configuration list for PBXNativeTarget "NewsUITests" */;
+			buildConfigurationList = 9CABA40027CB597000A453AD /* Build configuration list for PBXNativeTarget "recccNewsUITests" */;
 			buildPhases = (
 				086F73BB1107CF8D3E6A97B1 /* [CP] Check Pods Manifest.lock */,
 				9CABA3ED27CB597000A453AD /* Sources */,
@@ -333,9 +333,9 @@
 			dependencies = (
 				9CABA3F327CB597000A453AD /* PBXTargetDependency */,
 			);
-			name = NewsUITests;
+			name = recccNewsUITests;
 			productName = NewsUITests;
-			productReference = 9CABA3F127CB597000A453AD /* NewsUITests.xctest */;
+			productReference = 9CABA3F127CB597000A453AD /* recccNewsUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -360,7 +360,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 9CABA3C827CB596F00A453AD /* Build configuration list for PBXProject "News" */;
+			buildConfigurationList = 9CABA3C827CB596F00A453AD /* Build configuration list for PBXProject "recccNews" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -373,9 +373,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				9CABA3CC27CB596F00A453AD /* News */,
-				9CABA3E527CB597000A453AD /* NewsTests */,
-				9CABA3F027CB597000A453AD /* NewsUITests */,
+				9CABA3CC27CB596F00A453AD /* recccNews */,
+				9CABA3E527CB597000A453AD /* recccNewsTests */,
+				9CABA3F027CB597000A453AD /* recccNewsUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -565,12 +565,12 @@
 /* Begin PBXTargetDependency section */
 		9CABA3E827CB597000A453AD /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 9CABA3CC27CB596F00A453AD /* News */;
+			target = 9CABA3CC27CB596F00A453AD /* recccNews */;
 			targetProxy = 9CABA3E727CB597000A453AD /* PBXContainerItemProxy */;
 		};
 		9CABA3F327CB597000A453AD /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 9CABA3CC27CB596F00A453AD /* News */;
+			target = 9CABA3CC27CB596F00A453AD /* recccNews */;
 			targetProxy = 9CABA3F227CB597000A453AD /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -718,7 +718,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = rex.News;
+				PRODUCT_BUNDLE_IDENTIFIER = recccNews;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -738,7 +738,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = rex.News;
+				PRODUCT_BUNDLE_IDENTIFIER = recccNews;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -764,7 +764,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/News.app/News";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/recccNews.app/recccNews";
 			};
 			name = Debug;
 		};
@@ -787,7 +787,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/News.app/News";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/recccNews.app/recccNews";
 			};
 			name = Release;
 		};
@@ -836,7 +836,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		9CABA3C827CB596F00A453AD /* Build configuration list for PBXProject "News" */ = {
+		9CABA3C827CB596F00A453AD /* Build configuration list for PBXProject "recccNews" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9CABA3F827CB597000A453AD /* Debug */,
@@ -845,7 +845,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		9CABA3FA27CB597000A453AD /* Build configuration list for PBXNativeTarget "News" */ = {
+		9CABA3FA27CB597000A453AD /* Build configuration list for PBXNativeTarget "recccNews" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9CABA3FB27CB597000A453AD /* Debug */,
@@ -854,7 +854,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		9CABA3FD27CB597000A453AD /* Build configuration list for PBXNativeTarget "NewsTests" */ = {
+		9CABA3FD27CB597000A453AD /* Build configuration list for PBXNativeTarget "recccNewsTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9CABA3FE27CB597000A453AD /* Debug */,
@@ -863,7 +863,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		9CABA40027CB597000A453AD /* Build configuration list for PBXNativeTarget "NewsUITests" */ = {
+		9CABA40027CB597000A453AD /* Build configuration list for PBXNativeTarget "recccNewsUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9CABA40127CB597000A453AD /* Debug */,

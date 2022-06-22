@@ -81,6 +81,7 @@ class HomwViewController: UIViewController {
     var tempTopic = "TOP"
     
     
+    
     //MARK: Tabbar Button function
     @objc func singleTap(sender:UIButton) {
         
@@ -260,11 +261,18 @@ class HomwViewController: UIViewController {
         TableViewHeader.topAnchor.constraint(equalTo: PageControl.bottomAnchor, constant: 10).isActive = true
         TableViewHeader.leadingAnchor.constraint(equalTo: self.ScrollView.leadingAnchor, constant: 10).isActive = true
         
-        
-        
+    
         //MARK: ScrollView
         switch UIDevice.current.name {
+        case "iPhone SE (3rd generation)":
+            ScrollView.contentSize = CGSize(
+                width: fullScreenSize!.width * 1,
+                height: fullScreenSize!.height * 5.5)
         case "iPhone 8":
+            ScrollView.contentSize = CGSize(
+                width: fullScreenSize!.width * 1,
+                height: fullScreenSize!.height * 5.5)
+        case "iPhone 8 Plus":
             ScrollView.contentSize = CGSize(
                 width: fullScreenSize!.width * 1,
                 height: fullScreenSize!.height * 5.5)

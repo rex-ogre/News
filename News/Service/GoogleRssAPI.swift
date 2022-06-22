@@ -17,12 +17,12 @@ class APICaller{
     static let shared = APICaller()
     
     func fetchNews(completion: @escaping (_ news: [news])-> Void)  {
-        let url = URL(string: "https://news.google.com/rss?hl=zh-TW&gl=TW&ceid=TW:zh-Hant")!
+        let url = URL(string: "https://news.google.com/news/rss/headlines/section/topic/WORLD?hl=zh-TW&gl=TW&ceid=TW:zh-Hant")!
         var newsList: [news] = []
  
         let task = URLSession.shared.dataTask(with: url) {
             data,res,_ in
-    
+            print("請求資料成功")
             guard let xmlString = String(data: data!, encoding: .utf8),
                   let document = try? SwiftSoup.parse(xmlString, "", Parser.xmlParser()) else { return }
         

@@ -9,8 +9,20 @@ import UIKit
 
 class SettingTimeCell: UIView {
     
-    let Label: UILabel = UILabel()
-    let DateTimePicker: UIDatePicker = UIDatePicker()
+    let Label: UILabel = {
+        
+        let Label = UILabel()
+        Label.translatesAutoresizingMaskIntoConstraints = false
+        return Label
+    }()
+    let DateTimePicker: UIDatePicker = {
+        let DateTimePicker = UIDatePicker()
+        DateTimePicker.translatesAutoresizingMaskIntoConstraints = false
+        
+        return DateTimePicker
+    }()
+    
+    
     let dateFormatterGet = DateFormatter()
     
     
@@ -31,8 +43,8 @@ class SettingTimeCell: UIView {
     
     let Title:String
     private func config(){
-        Label.translatesAutoresizingMaskIntoConstraints = false
-        DateTimePicker.translatesAutoresizingMaskIntoConstraints = false
+        
+        
         self.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(DateTimePicker)
         self.addSubview(Label)
@@ -65,9 +77,9 @@ class SettingTimeCell: UIView {
         dateFormatterGet.dateFormat = "HH:mm"
         let date = dateFormatterGet.date(from: coreTime)
         self.DateTimePicker.date = date!
-        
         self.DateTimePicker.addTarget(self, action: #selector(dateTimeChange), for: .valueChanged)
     }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

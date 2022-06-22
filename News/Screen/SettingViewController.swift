@@ -13,16 +13,18 @@ class SettingViewController: UIViewController {
     let NavigationBar:UINavigationBar = UINavigationBar()
 
     private let fullScreenSize = UIScreen.main.bounds.size
-    private let ADView = UIView()
+   
     var NotificationsCell: SettingCell?
+    
     var bannerView: GADBannerView  = {
-     let    bannerView = GADBannerView(adSize: GADAdSizeBanner)
+     let bannerView = GADBannerView(adSize: GADAdSizeBanner)
         bannerView.translatesAutoresizingMaskIntoConstraints = false
           bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
         return bannerView
     }()
 
 
+    
     var DarkMode: SettingCell?
     private var DailyNotifyCell : SettingCell?
 
@@ -45,7 +47,7 @@ class SettingViewController: UIViewController {
         super.viewDidLoad()
 
         self.view.backgroundColor = .systemBackground
-        ADViewConfig()
+
         NotificationsViewConfig()
         DarkModeCell()
         DailyNotify()
@@ -55,19 +57,10 @@ class SettingViewController: UIViewController {
         bannerView.delegate = self
         bannerView.rootViewController = self
         bannerView.load(GADRequest())
-        addBannerViewToView(bannerView)
+//        addBannerViewToView(bannerView)
     }
 
 
-
-    private func ADViewConfig(){
-        ADView.translatesAutoresizingMaskIntoConstraints = false
-        self.view.addSubview(ADView)
-
-
-
-
-    }
 
 
 
@@ -150,15 +143,7 @@ class SettingViewController: UIViewController {
     }
 
     private func applyContraint(){
-
-        ADView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 100).isActive = true
-        ADView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        ADView.heightAnchor.constraint(equalToConstant: 150).isActive = true
-        ADView.widthAnchor.constraint(equalToConstant: 400).isActive = true
-
-
-
-        NotificationsCell!.topAnchor.constraint(equalTo: self.ADView.bottomAnchor, constant: 30).isActive = true
+        NotificationsCell!.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 200).isActive = true
         NotificationsCell!.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
 
 
@@ -172,12 +157,12 @@ class SettingViewController: UIViewController {
         NotifyTiemPicker.centerXAnchor.constraint(equalTo: NotificationsCell!.centerXAnchor).isActive = true
 
 
+        
         let headerConstraints = [
             self.header.topAnchor.constraint(equalTo: self.view.topAnchor,constant: 50),
             self.header.centerXAnchor.constraint(equalTo: self.view.centerXAnchor,constant: 0),
             self.header.heightAnchor.constraint(equalToConstant: 50)
         ]
-
         NSLayoutConstraint.activate(headerConstraints)
     }
 
@@ -208,26 +193,26 @@ class SettingViewController: UIViewController {
 
     }
 
-    func addBannerViewToView(_ bannerView: GADBannerView) {
-      bannerView.translatesAutoresizingMaskIntoConstraints = false
-      view.addSubview(bannerView)
-      view.addConstraints(
-        [NSLayoutConstraint(item: bannerView,
-                            attribute: .bottom,
-                            relatedBy: .equal,
-                            toItem: bottomLayoutGuide,
-                            attribute: .top,
-                            multiplier: 1,
-                            constant: 0),
-         NSLayoutConstraint(item: bannerView,
-                            attribute: .centerX,
-                            relatedBy: .equal,
-                            toItem: view,
-                            attribute: .centerX,
-                            multiplier: 1,
-                            constant: 0)
-        ])
-     }
+//    func addBannerViewToView(_ bannerView: GADBannerView) {
+//      bannerView.translatesAutoresizingMaskIntoConstraints = false
+//      view.addSubview(bannerView)
+//      view.addConstraints(
+//        [NSLayoutConstraint(item: bannerView,
+//                            attribute: .bottom,
+//                            relatedBy: .equal,
+//                            toItem: bottomLayoutGuide,
+//                            attribute: .top,
+//                            multiplier: 1,
+//                            constant: 0),
+//         NSLayoutConstraint(item: bannerView,
+//                            attribute: .centerX,
+//                            relatedBy: .equal,
+//                            toItem: view,
+//                            attribute: .centerX,
+//                            multiplier: 1,
+//                            constant: 0)
+//        ])
+//     }
 }
 
    
@@ -238,7 +223,7 @@ extension SettingViewController: GADBannerViewDelegate{
           UIView.animate(withDuration: 1, animations: {
             bannerView.alpha = 1
           })
-        addBannerViewToView(bannerView)
+//        addBannerViewToView(bannerView)
     }
 
     func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: Error) {

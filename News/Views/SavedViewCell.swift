@@ -16,7 +16,7 @@ class SavedTableViewCell: UITableViewCell {
     var tapGesture:UITapGestureRecognizer?
     
     private let Image : UIImageView = {
-      
+        
         let Image = UIImageView()
         Image.translatesAutoresizingMaskIntoConstraints = false
         Image.image = UIImage(systemName: "camera")
@@ -44,7 +44,7 @@ class SavedTableViewCell: UITableViewCell {
         let TitleLabel = UILabel()
         TitleLabel.translatesAutoresizingMaskIntoConstraints = false
         TitleLabel.numberOfLines = 5
-//        TitleLabel.textColor = .systemBackground
+        //        TitleLabel.textColor = .systemBackground
         return TitleLabel
     }()
     
@@ -63,7 +63,7 @@ class SavedTableViewCell: UITableViewCell {
         
         let TitleLabelLayoutCenterY = NSLayoutConstraint(item: TitleLabel, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1.0, constant: 0)
         let TitleLabelLayoutLeading = NSLayoutConstraint(item: TitleLabel, attribute: .leading, relatedBy: .equal, toItem: Image, attribute: .trailing, multiplier: 1.0, constant: 20)
-            
+        
         let TitleLabelLayoutWidth = NSLayoutConstraint(item: TitleLabel, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 150)
         let TitleLabelLayoutHeight = NSLayoutConstraint(item: TitleLabel, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 150)
         NSLayoutConstraint.activate([TitleLabelLayoutWidth,TitleLabelLayoutHeight,TitleLabelLayoutLeading,TitleLabelLayoutCenterY])
@@ -76,40 +76,35 @@ class SavedTableViewCell: UITableViewCell {
         let TimeLabelLeading = NSLayoutConstraint(item: TimeLabel, attribute: .leading, relatedBy: .equal, toItem: Image, attribute: .trailing, multiplier: 1.0, constant: 20)
         NSLayoutConstraint.activate([TimeLabelWidth,TimeLabelHeight,TimeLabelLeading,TimeLabelBottom])
         
-        //MARK: SaveIcon Layout
-//        let SaveIconBottom = NSLayoutConstraint(item: SaveIcon, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1.0, constant: -20)
-//        let SaveIconTralling = NSLayoutConstraint(item: SaveIcon, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1.0, constant: -20)
-//        NSLayoutConstraint.activate([SaveIconBottom,SaveIconTralling])
         
-
         
-     
+        
         
     }
     
-   
     
     
-     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-      
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.backgroundColor = .systemFill
         
         self.addSubview(TitleLabel)
         self.addSubview(Image)
         self.addSubview(TimeLabel)
-//         self.addSubview(self.SaveIcon)
+        //         self.addSubview(self.SaveIcon)
         applyConstraints()
-         
-         tapGesture?.delegate = self
-         saveTagGesture?.delegate = self
-         tapGesture =
-         UITapGestureRecognizer(target: self, action: #selector(handleTap(tap:)))
-         
-         self.addGestureRecognizer(tapGesture!)
+        
+        tapGesture?.delegate = self
+        saveTagGesture?.delegate = self
+        tapGesture =
+        UITapGestureRecognizer(target: self, action: #selector(handleTap(tap:)))
+        
+        self.addGestureRecognizer(tapGesture!)
         
         
-       }
+    }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -121,15 +116,15 @@ class SavedTableViewCell: UITableViewCell {
     }
     
     @objc func handleTap(tap: UITapGestureRecognizer) {
-      let vc = self.window?.rootViewController
-    
+        let vc = self.window?.rootViewController
+        
         let secondVc = UINavigationController(rootViewController: NewsWebScreen(new: self.new!))
-  
+        
         secondVc.modalPresentationStyle = .fullScreen
         
         if tap.state == .ended {
             vc!.present(secondVc, animated: true, completion: nil)
-        
+            
         }
     }
     @objc func saveTap(tap: UITapGestureRecognizer){
@@ -147,7 +142,7 @@ class SavedTableViewCell: UITableViewCell {
         self.new = new
         self.saveTagConfig()
         guard let image = self.new!.image else{return}
-     
+        
         self.TitleLabel.text = self.new!.title
         
         
@@ -160,9 +155,9 @@ class SavedTableViewCell: UITableViewCell {
     
     func saveTagConfig(){
         
-       
+        
         let temp = CoreDataManager.shared.compareNews(container: CoreDataManager.container, guid: self.new!.id)
-     
+        
         
         if temp {
             self.SaveIcon.image = UIImage(systemName: "bookmark.fill")
@@ -170,7 +165,7 @@ class SavedTableViewCell: UITableViewCell {
             self.SaveIcon.addGestureRecognizer(self.saveTagGesture!)
         } else{
             self.SaveIcon.image = UIImage(systemName: "bookmark")
-           
+            
             self.saveTagGesture = UITapGestureRecognizer(target: self, action: #selector(saveTap(tap:)))
             self.SaveIcon.addGestureRecognizer(self.saveTagGesture!)
         }
@@ -180,10 +175,10 @@ class SavedTableViewCell: UITableViewCell {
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-            
+        
         // Configure the view for the selected state
     }
-
+    
 }
 extension SavedTableViewCell{
     override func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
