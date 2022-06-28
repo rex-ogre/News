@@ -9,6 +9,7 @@ import Foundation
 import HTMLKit
 import Combine
 import SwiftSoup
+import SwiftUI
 enum APIError: Error {
     case failedTogetData
 }
@@ -101,7 +102,9 @@ class APICaller{
                     let url = URL(string: new.link)!
                     let task = URLSession.shared.dataTask(with: url) {
                     data,res,_ in
-                    guard let htmlString = String(data: data!, encoding: .utf8),
+                       
+                        guard let htmlString = String(data: data  ?? Data(), encoding: .utf8),
+                        
                           let document = try? SwiftSoup.parse(htmlString) else {
                         return
                     }

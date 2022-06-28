@@ -98,7 +98,7 @@ class HorizionalCell: UIView {
         self.addSubview(Title)
         self.addSubview(SaveIcon)
         applyConstraints()
-
+     
             
     }
     
@@ -149,7 +149,7 @@ class HorizionalCell: UIView {
         
        
         let temp = CoreDataManager.shared.compareNews(container: CoreDataManager.container, guid: self.new.id)
-        print(temp)
+       
         
         if temp {
             self.SaveIcon.image = UIImage(systemName: "bookmark.fill")
