@@ -36,7 +36,7 @@ class SettingCell: UIView {
         
         //MARK: Self Setting
         self.layer.cornerRadius = 0.0
-        self.widthAnchor.constraint(equalToConstant: 350).isActive = true
+//        self.widthAnchor.constraint(equalToConstant: 350).isActive = true
         self.heightAnchor.constraint(equalToConstant: 75).isActive = true
         self.backgroundColor = .systemFill
         //MARK: Label Setting

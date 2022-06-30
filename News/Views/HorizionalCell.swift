@@ -137,8 +137,8 @@ class HorizionalCell: UIView {
     func config(){
         saveTagConfig()
         guard let image =  self.new.image  else{return  }
-       
-        self.PreviewImage.kf.setImage(with: URL(string: image)!)
+        
+        guard (self.PreviewImage.kf.setImage(with: URL(string: image)) != nil) else{ return}
         self.Title.text = new.title
         
         self.tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(tap:)))

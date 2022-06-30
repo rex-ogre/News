@@ -65,7 +65,7 @@ class HomwViewController: UIViewController {
     }()
     let ScrollView : UIScrollView = {
         let ScrollView = UIScrollView()
-        ScrollView.contentInset =  UIEdgeInsets(top: -22, left: 0, bottom: 150, right: 0)
+//        ScrollView.contentInset =  UIEdgeInsets(top: -22, left: 0, bottom: 150, right: 0)
         ScrollView.isDirectionalLockEnabled = true
         ScrollView.isUserInteractionEnabled = true
         ScrollView.bounces = true
@@ -243,15 +243,15 @@ class HomwViewController: UIViewController {
         case "iPhone 8":
             ScrollView.contentSize = CGSize(
                 width: fullScreenSize!.width * 1,
-                height: fullScreenSize!.height * 5.5)
+                height: fullScreenSize!.height * 6.5)
         case "iPhone 8 Plus":
             ScrollView.contentSize = CGSize(
                 width: fullScreenSize!.width * 1,
-                height: fullScreenSize!.height * 5.5)
+                height: fullScreenSize!.height * 6.5)
         default:
             ScrollView.contentSize = CGSize(
                 width: fullScreenSize!.width * 1,
-                height: fullScreenSize!.height * 4.3)
+                height: fullScreenSize!.height * 5.5)
         }
         NewsTabbar.contentSize = CGSize(width: fullScreenSize!.width*1.5, height: 50)
         HorizionalScrollView.contentSize = CGSize(width: fullScreenSize!.width*5, height: 250)
@@ -389,21 +389,38 @@ class HomwViewController: UIViewController {
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
+     
         if UIDevice.current.orientation.isLandscape {
+     
             fullScreenSize = CGRect(x: 0, y: 0, width: size.width,height: size.height)
+            ScrollView.contentSize = CGSize(width: size.width, height: size.height*8)
             configOriention()
+            HorizionalScrollView.contentSize = CGSize(width: fullScreenSize!.width*5, height: 250)
+           
+            HorizionalScrollView.contentOffset = CGPoint(x: Int(size.width) * PageControl.currentPage, y: 0)
+            
+        
         } else {
+      
             fullScreenSize = CGRect(x: 0, y: 0, width: size.width,height: size.height)
+            ScrollView.contentSize = CGSize(width: size.width, height: size.height*5.5)
             configOriention()
+            
+            HorizionalScrollView.contentSize = CGSize(width: fullScreenSize!.width*5, height: 250)
+    
+            HorizionalScrollView.contentOffset = CGPoint(x: (Int(size.width) * PageControl.currentPage) - (Int((size.width - 350))), y: 0)
         }
         
     }
     
     
-    
+        
     
     func configOriention(){
+        
         guard self.viewModel.NewsList.count > 4 else {return}
+        NewsTabbar.contentOffset  = CGPoint(x: -40, y: 0)
+        
         for i in HorCellList{
             i.removeFromSuperview()
         }
@@ -438,7 +455,8 @@ class HomwViewController: UIViewController {
                                                                                 ]), for: .selected)
             catgory.setAttributedTitle(NSAttributedString(string: i,attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 21 ),]), for: .normal)
             catgory.isUserInteractionEnabled = true
-            if (Newsitems.firstIndex(of: i)! == 0 ){
+            if (self.Newsitems[i] == tempTopic ){
+    
                 catgory.isSelected = true
             }
             
